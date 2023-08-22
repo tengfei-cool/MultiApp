@@ -21,7 +21,9 @@ const gorun = function () {
       runBuild(element.key);
     });
   }else{
-    runBuild(args[0]);
+    args.map(item=>{
+      runBuild(item);
+    })
   }
 };
 

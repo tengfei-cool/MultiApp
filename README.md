@@ -72,7 +72,12 @@
 
    node build 项目名称
 ```
- ##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b. 打包所有项目
+ ##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b. 打包多个项目
+
+```js
+   node build 项目1 项目2
+```
+ ##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c. 打包所有项目
 ```js
    node build
 ```
