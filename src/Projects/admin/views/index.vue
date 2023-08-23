@@ -1,12 +1,15 @@
 <template>
   <h3>这是首页</h3>
-  <button @click="toPage">main</button>
+  <button @click="back">back</button>
+  <button @click="getData">getData</button>
 </template>
 
 <script setup>
-import rx from '@/multiApp'
-const toPage = () => {
-  rx.page('/main',)
+const back = () => {
+  rx.page.back()
+}
+const getData = () => {
+  console.log(rx.store.data)
 }
 </script>
 

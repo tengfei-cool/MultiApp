@@ -1,4 +1,1 @@
-[
-  { "key": "main", "entry": "src/Projects/main/index.html", "desc": "main" },
-  { "key": "admin", "entry": "src/Projects/admin/index.html", "desc": "admin" }
-]
+[{"key":"main","entry":"src/Projects/main/index.html","desc":"main"},{"key":"admin","entry":"src/Projects/admin/index.html","desc":"admin"}]

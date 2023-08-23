@@ -1,9 +1,7 @@
 <template>
   <router-view></router-view>
 </template>
-<script setup>
-window.test = 123
-</script>
+<script setup></script>
 <style lang="less">
 
 </style>
