@@ -9,7 +9,7 @@
          └── 项目2
     |-- public     静态资源
     |-- multiApp   多页面公用插件
-        |--config.js         共有插件配置
+        |--config.js         插件配置
         |--sandbox.js        js沙箱
         |--page.js           页面跳转       //内置插件
         |--store.js          数据存贮通信   //内置插件
@@ -99,11 +99,11 @@
 - ##### 打包所有项目
 
 ```js
-   node build
+   node build   // 分开打包，静态资源生成在各自的文件夹下
 
    或
 
-   npm run build  //不推荐使用（所有静态资源都输出在一起）
+   npm run build  // 所有静态资源都输出在一起,公用资源去重 (推荐使用)
 ```
 
 #### 5. 删除项目
@@ -122,7 +122,7 @@
    app.use(multiApp)
 
    //使用 
-   rx.plugin
+   rx.插件名称
 ```
 
 - ##### sandbox ( diff 沙箱 )
@@ -204,8 +204,29 @@
   ```
 
 * ##### crypto
+  ```js
+    let str = '内容'
+    //加密
+    let encryptData =  rx.crypto.encrypt(str)
+    console.log(encryptData)  //  sD9mfmXS7ggy1aFO2TBk0Q==
+
+    //解密
+    let decryptData =  rx.crypto.decrypt(encryptData)
+    console.log(decryptData)  // 内容
+  ```
 
 * ##### storage
+  ```js
+    //存储
+    rx.storage.set('name','融象数科')
+
+    //获取
+    let data = rx.storage.get('name')
+    console.log(data)  // 融象数科
+
+    //删除
+    rx.storage.remove('name')
+  ```
 * ##### http
 
 * ##### 注册自定义插件

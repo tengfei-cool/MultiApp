@@ -71,7 +71,14 @@ export default defineConfig({
     rollupOptions: {
       input: getEnterPages(),
       output: {
-        assetFileNames: "[ext]/[name]-[hash].[ext]",
+        // 输出文件区分到 css、js、assets 文件夹下
+        assetFileNames: (file)=>{
+          if(file.name.includes('.css')){
+            return "css/[name]-[hash].[ext]"
+          }else{
+            return "assets/[name]-[hash].[ext]"
+          }
+        },
         chunkFileNames: "js/[name]-[hash].js",
         entryFileNames: "js/[name]-[hash].js",
         compact: true,
