@@ -4,10 +4,7 @@ import fs from "fs";
 
 // 命令行参数
 const args = process.argv.splice(2);
-
-const resolve = (__dirname, ...file) => path.resolve(__dirname, ...file);
 const log = (message) => console.log(chalk.green(`${message}`));
-const successLog = (message) => console.log(chalk.blue(`${message}`));
 const errorLog = (error) => console.log(chalk.red(`${error}`));
 
 // 判断文件夹是否存在，不存在创建一个

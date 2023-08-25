@@ -51,7 +51,7 @@ const getStore = () => {
     window.addEventListener('beforeunload',()=>{
         setStore()
     })
-})()
+})(this)
 
 export default new Proxy(Store,{
     deleteProperty(target, prop){

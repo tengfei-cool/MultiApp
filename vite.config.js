@@ -16,7 +16,7 @@ const npm_page = process.env.npm_config_page || "";
 
 const errorLog = (error) => console.log(chalk.red(`${error}`));
 
-const getEnterPages = () => {
+const getEnters = () => {
   const pagesArr = pages.filter(
     (item) => item.key.toLowerCase() == npm_page.toLowerCase()
   );
@@ -69,7 +69,7 @@ export default defineConfig({
     outDir: getOutDir(),
     emptyOutDir: true,
     rollupOptions: {
-      input: getEnterPages(),
+      input: getEnters(),
       output: {
         // 输出文件区分到 css、js、assets 文件夹下
         assetFileNames: (file)=>{
