@@ -1,6 +1,4 @@
-export class Http {
-    register(options){
+class Http {
 
-    }
 }
 export default new Http()
