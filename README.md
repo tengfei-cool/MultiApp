@@ -196,6 +196,9 @@
   ```js
     //清除单个数据
     rx.store.clear('token')
+
+    //清除多个数据
+    rx.store.clear('token',"userInfo")
   ```
   4. clearAll()
   ```js
