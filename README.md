@@ -39,7 +39,8 @@
                   └── ···
              └──index.html     根目录项目入口文件（开发环境）
     |-- .gitignore         gitignore配置
-    |-- pages.json         子项目项目配置
+    |-- pages.json         子项目项目配置 
+    |-- Conponents.md      项目公共组件使用说明
     |-- vite.config.ts     项目打包配置文件
 
 ```
@@ -113,39 +114,43 @@
 ```
 
 #### 6. multiApp 插件的使用
+
 ```js
-   //main.js
-   import multiApp from '@/multiApp'
-   const app = createApp(App)
+//main.js
+import multiApp from "@/multiApp";
+const app = createApp(App);
 
-   //注册插件
-   app.use(multiApp)
+//注册插件
+app.use(multiApp);
 
-   //使用 
-   rx.插件名称
+//使用
+rx.插件名称;
 ```
 
 - ##### sandbox ( diff 沙箱 )
+
   ```js
+  let sandbox = new rx.Sandbox();
 
-   let sandbox = new rx.Sandbox();
+  sandbox.activeSandbox(); // 激活沙箱
 
-   sandbox.activeSandbox(); // 激活沙箱
+  window.city = "上海";
 
-   window.city = "上海";
-
-   sandbox.inactiveSandbox(); //卸载沙箱
-
+  sandbox.inactiveSandbox(); //卸载沙箱
   ```
-- ##### page ( 页面跳转 )
-  - aLink
-  ```js
-     //使用 （params 参数 target 是否当前窗口打开）
 
-     rx.page.aLink('http://www.baidu.com','_blank')
+- ##### page ( 页面跳转 )
+
+  - aLink
+
+  ```js
+  //使用 （params 参数 target 是否当前窗口打开）
+
+  rx.page.aLink("http://www.baidu.com", "_blank");
   ```
 
   - push
+
   ```js
      //使用 （params 参数 target 是否当前窗口打开）
 
@@ -156,83 +161,113 @@
      rx.page.push({ path:"/admin/", query:{···}},'_self_')   // 跳转 admin 项目并传参
 
   ```
+
   - back
-  ```js
-     //页面返回
 
-     rx.page.back()
+  ```js
+  //页面返回
+
+  rx.page.back();
   ```
+
   - go
-  ```js
-     //同 history.go()
 
-     rx.page.go(n)
+  ```js
+  //同 history.go()
+
+  rx.page.go(n);
   ```
+
 * ##### store （数据存储通信）
+
   1. 数据存储 ( 所有项目均可使用 )
+
   ```js
-     //保存 
-     rx.store.token = '123'
+  //保存
+  rx.store.token = "123";
 
-     rx.store.userInfo = {name:'融象数科'}
+  rx.store.userInfo = { name: "融象数科" };
 
-     rx.store.setData('token','123')
+  rx.store.setData("token", "123");
 
-     //获取单个数据
-     let token = rx.store.token
-     console.log(token)   // 123
+  //获取单个数据
+  let token = rx.store.token;
+  console.log(token); // 123
 
-     //获取所有数据
-     let data = rx.store.data
-     console.log(data) // {token:'123',userInfo:{name:'融象数科'}}
+  //获取所有数据
+  let data = rx.store.data;
+  console.log(data); // {token:'123',userInfo:{name:'融象数科'}}
   ```
 
   2. setData()
-  ```js
-    //保存数据
-    rx.store.setData('token','123')
-  ```
-  3. clear()
-  ```js
-    //清除单个数据
-    rx.store.clear('token')
 
-    //清除多个数据
-    rx.store.clear('token',"userInfo")
-  ```
-  4. clearAll()
   ```js
-    //清除所有数据
-    rx.store.clearAll()
+  //保存数据
+  rx.store.setData("token", "123");
+  ```
+
+  3. clear()
+
+  ```js
+  //清除单个数据
+  rx.store.clear("token");
+
+  //清除多个数据
+  rx.store.clear("token", "userInfo");
+  ```
+
+  4. clearAll()
+
+  ```js
+  //清除所有数据
+  rx.store.clearAll();
   ```
 
 * ##### crypto
-  ```js
-    let str = '内容'
-    //加密
-    let encryptData =  rx.crypto.encrypt(str)
-    console.log(encryptData)  //  sD9mfmXS7ggy1aFO2TBk0Q==
 
-    //解密
-    let decryptData =  rx.crypto.decrypt(encryptData)
-    console.log(decryptData)  // 内容
+  ```js
+  let str = "内容";
+  //加密
+  let encryptData = rx.crypto.encrypt(str);
+  console.log(encryptData); //  sD9mfmXS7ggy1aFO2TBk0Q==
+
+  //解密
+  let decryptData = rx.crypto.decrypt(encryptData);
+  console.log(decryptData); // 内容
   ```
 
 * ##### storage
+
   ```js
-    //存储
-    rx.storage.set('name','融象数科')
+  //存储
+  rx.storage.set("name", "融象数科");
 
-    //获取
-    let data = rx.storage.get('name')
-    console.log(data)  // 融象数科
+  //获取
+  let data = rx.storage.get("name");
+  console.log(data); // 融象数科
 
-    //删除
-    rx.storage.remove('name')
+  //删除
+  rx.storage.remove("name");
   ```
+
 * ##### http
 
-* ##### 注册自定义插件
+  ```js
+
+      //请求/返回拦截、鉴权等，根据业务需求自行配置
+
+      //使用 
+     export const login = (data) => {
+         return rx.http.request({
+            url: "web/login",    //接口配置
+            data,                //请求参数
+            method: "post",      //请求方法（默认post请求）
+         });
+     };
+  ```
+
+- ##### 注册自定义插件
+
   ```js
      //main.js
      import multiApp from '@/multiApp'
@@ -247,3 +282,111 @@
      rx.test()    // this is test plugin ！！
 
   ```
+#### 7. vite.config.js
+```js
+   import { defineConfig } from "vite";
+   import vue from "@vitejs/plugin-vue";
+   import path from "path";
+   import chalk from "chalk";
+   import pages from "./pages.json" assert { type: "json" };
+
+   //基础配置
+   const config = {
+      main: "main", //主程序项目（根目录下）
+      outDirName: "dist", //打包输出文件夹名称
+   };
+   //环境
+   const ENV = process.env.NODE_ENV;
+   //项目名称
+   const npm_page = process.env.npm_config_page || "";
+   const errorLog = (error) => console.log(chalk.red(`${error}`));
+   //获取打包运行入口
+   const getEnters = () => {
+   const pagesArr = pages.filter(
+      (item) => item.key.toLowerCase() == npm_page.toLowerCase()
+   );
+   if (npm_page && !pagesArr.length)
+      errorLog(
+         "-----------------------不存在此页面，请检查页面名称！-------------------------"
+      );
+
+   if (!npm_page) {
+      //打包所有 (npm run build)
+      let options = {};
+      pages.map((item) => {
+         let entry =
+         item.key === config.main ? "src/Projects/index.html" : item.entry;
+         options[item.key] = path.resolve(__dirname, entry);
+      });
+      return options;
+   } else {
+      //开发环境运行根目录项目（main）
+      let entry =
+         npm_page === config.main && ENV === "development"
+         ? "src/Projects/index.html"
+         : `src/Projects/${npm_page}/index.html`;
+      return {
+         [npm_page]: path.resolve(__dirname, entry),
+      };
+   }
+   };
+   //项目打包输入文件  main 设为根目录项目
+   const getOutDir = () => {
+   if (npm_page === config.main) {
+      return path.resolve(__dirname, `${config.outDirName}`);
+   } else {
+      return path.resolve(__dirname, `${config.outDirName}/${npm_page}`);
+   }
+   };
+
+   export default defineConfig({
+      plugins: [vue()],
+      root: path.resolve(__dirname, `./src/Projects/${npm_page}`),
+      base: ENV === "development" ? "/" : "./",
+      envDir: path.resolve(__dirname),
+      resolve: {
+         alias: {
+            "@": path.join(__dirname, "./src"),
+            "@Projects": path.join(__dirname, "./src/Projects"),
+            "@multiApp": path.join(__dirname, "./src/multiApp"),
+            "@services": path.join(__dirname, "./src/services"),
+         },
+      },
+      build: {
+         outDir: getOutDir(),
+         emptyOutDir: true, //清空文件夹
+         rollupOptions: {
+            input: getEnters(),
+            output: {
+            // 输出文件区分到 css、js、assets 文件夹下
+            assetFileNames: (file)=>{
+               if(file.name.includes('.css')){
+                  return "css/[name]-[hash].[ext]"
+               }else{
+                  return "assets/[name]-[hash].[ext]"
+               }
+            },
+            chunkFileNames: "js/[name]-[hash].js",
+            entryFileNames: "js/[name]-[hash].js",
+            compact: true,
+            manualChunks: (id) => {
+               if (id.includes("node_modules")) {
+                  return id
+                  .toString()
+                  .split("node_modules/")[1]
+                  .split("/")[0]
+                  .toString();
+               }
+            },
+            },
+         },
+      },
+      // 运行服务端口
+      server: {
+         host: "0.0.0.0",
+         port: 2000,
+      },
+   });
+
+
+```

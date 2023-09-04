@@ -3,6 +3,7 @@ import page from "./page";
 import store from "./store";
 import crypto from "./crypto";
 import storage from "./storage";
+import http from "./http";
 
 export default {
   rx: {
@@ -10,7 +11,8 @@ export default {
     store,
     Sandbox,
     crypto,
-    storage
+    storage,
+    http
   },
   sandbox: new Sandbox("diff沙箱"),
   

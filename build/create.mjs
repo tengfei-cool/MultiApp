@@ -69,6 +69,24 @@ const copyFile = (sourcePath, targetPath,projectName) => {
           }
         )
       }
+      if(file.name === 'index.vue'){
+        fs.readFile(
+          path.resolve(newTargetPath),
+          'utf-8',
+          (err, data) => {
+            // 正则匹配
+            let datas = JSON.stringify(data).replace(/首页/g,`这是${projectName}首页`)
+            fs.writeFile(
+              path.resolve(newTargetPath),
+              JSON.parse(datas),
+              'utf-8',
+              (err) => {
+                if (err) throw err
+              }
+            )
+          }
+        )
+      }
 
     }
   })

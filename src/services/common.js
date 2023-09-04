@@ -1,11 +1,7 @@
-export default {
-    // //文件上传
-    // uploadFile(data) {
-    //   return {
-    //     url: "/base/upload",
-    //     data: form,
-    //   };
-    // },
-
-  };
-  
+export const login = (data) => {
+  return rx.http.request({
+    url: "web/bigscreen/statistics/query",
+    data,
+    method: "post",
+  });
+}

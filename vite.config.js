@@ -9,13 +9,12 @@ const config = {
   main: "main", //主程序项目（根目录下）
   outDirName: "dist", //打包输出文件夹名称
 };
-
+//环境
 const ENV = process.env.NODE_ENV;
-
+//项目名称
 const npm_page = process.env.npm_config_page || "";
-
 const errorLog = (error) => console.log(chalk.red(`${error}`));
-
+//获取打包运行入口
 const getEnters = () => {
   const pagesArr = pages.filter(
     (item) => item.key.toLowerCase() == npm_page.toLowerCase()
@@ -63,11 +62,13 @@ export default defineConfig({
     alias: {
       "@": path.join(__dirname, "./src"),
       "@Projects": path.join(__dirname, "./src/Projects"),
+      "@multiApp": path.join(__dirname, "./src/multiApp"),
+      "@services": path.join(__dirname, "./src/services"),
     },
   },
   build: {
     outDir: getOutDir(),
-    emptyOutDir: true,
+    emptyOutDir: true, //清空文件夹
     rollupOptions: {
       input: getEnters(),
       output: {
@@ -94,9 +95,9 @@ export default defineConfig({
       },
     },
   },
+  // 运行服务端口
   server: {
-    // 运行端口
     host: "0.0.0.0",
-    port: 1648,
+    port: 2000,
   },
 });
