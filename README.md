@@ -181,7 +181,7 @@ rx.插件名称;
 
 * ##### store （数据存储通信）
 
-  1. 数据存储 ( 所有项目均可使用 )
+  1. 数据存储 ( 所有项目共用 )
 
   ```js
   //保存
@@ -303,41 +303,41 @@ rx.插件名称;
    const errorLog = (error) => console.log(chalk.red(`${error}`));
    //获取打包运行入口
    const getEnters = () => {
-   const pagesArr = pages.filter(
-      (item) => item.key.toLowerCase() == npm_page.toLowerCase()
-   );
-   if (npm_page && !pagesArr.length)
-      errorLog(
-         "-----------------------不存在此页面，请检查页面名称！-------------------------"
+      const pagesArr = pages.filter(
+         (item) => item.key.toLowerCase() == npm_page.toLowerCase()
       );
+      if (npm_page && !pagesArr.length)
+         errorLog(
+            "-----------------------不存在此页面，请检查页面名称！-------------------------"
+         );
 
-   if (!npm_page) {
-      //打包所有 (npm run build)
-      let options = {};
-      pages.map((item) => {
+      if (!npm_page) {
+         //打包所有 (npm run build)
+         let options = {};
+         pages.map((item) => {
+            let entry =
+            item.key === config.main ? "src/Projects/index.html" : item.entry;
+            options[item.key] = path.resolve(__dirname, entry);
+         });
+         return options;
+      } else {
+         //开发环境运行根目录项目（main）
          let entry =
-         item.key === config.main ? "src/Projects/index.html" : item.entry;
-         options[item.key] = path.resolve(__dirname, entry);
-      });
-      return options;
-   } else {
-      //开发环境运行根目录项目（main）
-      let entry =
-         npm_page === config.main && ENV === "development"
-         ? "src/Projects/index.html"
-         : `src/Projects/${npm_page}/index.html`;
-      return {
-         [npm_page]: path.resolve(__dirname, entry),
-      };
-   }
+            npm_page === config.main && ENV === "development"
+            ? "src/Projects/index.html"
+            : `src/Projects/${npm_page}/index.html`;
+         return {
+            [npm_page]: path.resolve(__dirname, entry),
+         };
+      }
    };
    //项目打包输入文件  main 设为根目录项目
    const getOutDir = () => {
-   if (npm_page === config.main) {
-      return path.resolve(__dirname, `${config.outDirName}`);
-   } else {
-      return path.resolve(__dirname, `${config.outDirName}/${npm_page}`);
-   }
+      if (npm_page === config.main) {
+         return path.resolve(__dirname, `${config.outDirName}`);
+      } else {
+         return path.resolve(__dirname, `${config.outDirName}/${npm_page}`);
+      }
    };
 
    export default defineConfig({
@@ -388,6 +388,4 @@ rx.插件名称;
          port: 2000,
       },
    });
-
-
 ```
