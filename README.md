@@ -49,7 +49,7 @@
 #### 2. 创建子项目
 
 ```js
-   //项目生成咋指定文件 src/Projects 下
+   //项目生成在指定文件 src/Projects 下
 
    npm run new:page 项目名称:项目描述
 ```
@@ -187,7 +187,7 @@ rx.插件名称;
   //保存
   rx.store.token = "123";
 
-  rx.store.userInfo = { name: "融象数科" };
+  rx.store.userInfo = { name: "内容" };
 
   rx.store.setData("token", "123");
 
@@ -197,7 +197,7 @@ rx.插件名称;
 
   //获取所有数据
   let data = rx.store.data;
-  console.log(data); // {token:'123',userInfo:{name:'融象数科'}}
+  console.log(data); // {token:'123',userInfo:{name:'内容'}}
   ```
 
   2. setData()
@@ -241,11 +241,11 @@ rx.插件名称;
 
   ```js
   //存储
-  rx.storage.set("name", "融象数科");
+  rx.storage.set("name", "内容");
 
   //获取
   let data = rx.storage.get("name");
-  console.log(data); // 融象数科
+  console.log(data); // 内容
 
   //删除
   rx.storage.remove("name");
