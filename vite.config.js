@@ -56,7 +56,7 @@ const getOutDir = () => {
 export default defineConfig({
   plugins: [vue()],
   root: path.resolve(__dirname, `./src/Projects/${npm_page}`),
-  base: ENV === "development" ? "/" : "./",
+  base: "/",
   envDir: path.resolve(__dirname),
   resolve: {
     alias: {
