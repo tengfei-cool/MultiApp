@@ -40,7 +40,7 @@
                   └── ···
              └──index.html     根目录项目入口文件（开发环境）
     |-- .gitignore         gitignore配置
-    |-- pages.json         子项目项目配置 
+    |-- pages.json         子项目项目配置
     |-- Conponents.md      项目公共组件使用说明
     |-- vite.config.ts     项目打包配置文件
 
@@ -179,6 +179,31 @@ rx.插件名称;
   rx.page.go(n);
   ```
 
+  
+* ##### event （监听事件）
+   ```js
+    const count = ref(0)
+
+    //点击触发count变化
+    const submit = () => {
+      count.value ++
+      //触发监听事件
+      rx.event.dispatch('storeChange','count',count.value)
+    }
+
+
+    //监听事件变化
+    onMounted(() =>{
+      rx.event.listener('storeChange',(e)=>{
+         console.log(e)
+      })
+    })
+
+    //删除监听事件
+    rx.event.remove('storeChange')
+
+   ```
+
 * ##### store （数据存储通信）
 
   1. 数据存储 ( 所有项目共用 )
@@ -224,6 +249,23 @@ rx.插件名称;
   rx.store.clearAll();
   ```
 
+  5. 数据监听 listener
+
+  ```js
+   import {ref} from 'vue'
+   import {listener} from '@multiApp'
+
+   //监听store中count的变化
+   listener("count",(val)=>{
+      num.value = val
+   })
+
+   //监听store中所有数据的变化
+   listener("data",(val)=>{
+      data.value = val
+   })
+  ```
+
 * ##### crypto
 
   ```js
@@ -254,17 +296,16 @@ rx.插件名称;
 * ##### http
 
   ```js
+  //请求/返回拦截、鉴权等，根据业务需求自行配置
 
-      //请求/返回拦截、鉴权等，根据业务需求自行配置
-
-      //使用 
-     export const login = (data) => {
-         return rx.http.request({
-            url: "web/login",    //接口配置
-            data,                //请求参数
-            method: "post",      //请求方法（默认post请求）
-         });
-     };
+  //使用
+  export const login = (data) => {
+    return rx.http.request({
+      url: "web/login", //接口配置
+      data, //请求参数
+      method: "post", //请求方法（默认post请求）
+    });
+  };
   ```
 
 - ##### 注册自定义插件
@@ -283,109 +324,111 @@ rx.插件名称;
      rx.test()    // this is test plugin ！！
 
   ```
+
 #### 7. vite.config.js
+
 ```js
-   import { defineConfig } from "vite";
-   import vue from "@vitejs/plugin-vue";
-   import path from "path";
-   import chalk from "chalk";
-   import pages from "./pages.json" assert { type: "json" };
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import path from "path";
+import chalk from "chalk";
+import pages from "./pages.json" assert { type: "json" };
 
-   //基础配置
-   const config = {
-      main: "main", //主程序项目（根目录下）
-      outDirName: "dist", //打包输出文件夹名称
-   };
-   //环境
-   const ENV = process.env.NODE_ENV;
-   //项目名称
-   const npm_page = process.env.npm_config_page || "";
-   const errorLog = (error) => console.log(chalk.red(`${error}`));
-   //获取打包运行入口
-   const getEnters = () => {
-      const pagesArr = pages.filter(
-         (item) => item.key.toLowerCase() == npm_page.toLowerCase()
-      );
-      if (npm_page && !pagesArr.length)
-         errorLog(
-            "-----------------------不存在此页面，请检查页面名称！-------------------------"
-         );
+//基础配置
+const config = {
+  main: "main", //主程序项目（根目录下）
+  outDirName: "dist", //打包输出文件夹名称
+};
+//环境
+const ENV = process.env.NODE_ENV;
+//项目名称
+const npm_page = process.env.npm_config_page || "";
+const errorLog = (error) => console.log(chalk.red(`${error}`));
+//获取打包运行入口
+const getEnters = () => {
+  const pagesArr = pages.filter(
+    (item) => item.key.toLowerCase() == npm_page.toLowerCase()
+  );
+  if (npm_page && !pagesArr.length)
+    errorLog(
+      "-----------------------不存在此页面，请检查页面名称！-------------------------"
+    );
 
-      if (!npm_page) {
-         //打包所有 (npm run build)
-         let options = {};
-         pages.map((item) => {
-            let entry =
-            item.key === config.main ? "src/Projects/index.html" : item.entry;
-            options[item.key] = path.resolve(__dirname, entry);
-         });
-         return options;
-      } else {
-         //开发环境运行根目录项目（main）
-         let entry =
-            npm_page === config.main && ENV === "development"
-            ? "src/Projects/index.html"
-            : `src/Projects/${npm_page}/index.html`;
-         return {
-            [npm_page]: path.resolve(__dirname, entry),
-         };
-      }
-   };
-   //项目打包输入文件  main 设为根目录项目
-   const getOutDir = () => {
-      if (npm_page === config.main) {
-         return path.resolve(__dirname, `${config.outDirName}`);
-      } else {
-         return path.resolve(__dirname, `${config.outDirName}/${npm_page}`);
-      }
-   };
+  if (!npm_page) {
+    //打包所有 (npm run build)
+    let options = {};
+    pages.map((item) => {
+      let entry =
+        item.key === config.main ? "src/Projects/index.html" : item.entry;
+      options[item.key] = path.resolve(__dirname, entry);
+    });
+    return options;
+  } else {
+    //开发环境运行根目录项目（main）
+    let entry =
+      npm_page === config.main && ENV === "development"
+        ? "src/Projects/index.html"
+        : `src/Projects/${npm_page}/index.html`;
+    return {
+      [npm_page]: path.resolve(__dirname, entry),
+    };
+  }
+};
+//项目打包输入文件  main 设为根目录项目
+const getOutDir = () => {
+  if (npm_page === config.main) {
+    return path.resolve(__dirname, `${config.outDirName}`);
+  } else {
+    return path.resolve(__dirname, `${config.outDirName}/${npm_page}`);
+  }
+};
 
-   export default defineConfig({
-      plugins: [vue()],
-      root: path.resolve(__dirname, `./src/Projects/${npm_page}`),
-      base: ENV === "development" ? "/" : "./",
-      envDir: path.resolve(__dirname),
-      resolve: {
-         alias: {
-            "@": path.join(__dirname, "./src"),
-            "@Projects": path.join(__dirname, "./src/Projects"),
-            "@multiApp": path.join(__dirname, "./src/multiApp"),
-            "@services": path.join(__dirname, "./src/services"),
-         },
+export default defineConfig({
+  plugins: [vue()],
+  root: path.resolve(__dirname, `./src/Projects/${npm_page}`),
+  base: ENV === "development" ? "/" : "./",
+  envDir: path.resolve(__dirname),
+  resolve: {
+    alias: {
+      "@": path.join(__dirname, "./src"),
+      "@Projects": path.join(__dirname, "./src/Projects"),
+      "@multiApp": path.join(__dirname, "./src/multiApp"),
+      "@services": path.join(__dirname, "./src/services"),
+    },
+  },
+  build: {
+    outDir: getOutDir(),
+    emptyOutDir: true, //清空文件夹
+    rollupOptions: {
+      input: getEnters(),
+      output: {
+        // 输出文件区分到 css、js、assets 文件夹下
+        assetFileNames: (file) => {
+          if (file.name.includes(".css")) {
+            return "css/[name]-[hash].[ext]";
+          } else {
+            return "assets/[name]-[hash].[ext]";
+          }
+        },
+        chunkFileNames: "js/[name]-[hash].js",
+        entryFileNames: "js/[name]-[hash].js",
+        compact: true,
+        manualChunks: (id) => {
+          if (id.includes("node_modules")) {
+            return id
+              .toString()
+              .split("node_modules/")[1]
+              .split("/")[0]
+              .toString();
+          }
+        },
       },
-      build: {
-         outDir: getOutDir(),
-         emptyOutDir: true, //清空文件夹
-         rollupOptions: {
-            input: getEnters(),
-            output: {
-            // 输出文件区分到 css、js、assets 文件夹下
-            assetFileNames: (file)=>{
-               if(file.name.includes('.css')){
-                  return "css/[name]-[hash].[ext]"
-               }else{
-                  return "assets/[name]-[hash].[ext]"
-               }
-            },
-            chunkFileNames: "js/[name]-[hash].js",
-            entryFileNames: "js/[name]-[hash].js",
-            compact: true,
-            manualChunks: (id) => {
-               if (id.includes("node_modules")) {
-                  return id
-                  .toString()
-                  .split("node_modules/")[1]
-                  .split("/")[0]
-                  .toString();
-               }
-            },
-            },
-         },
-      },
-      // 运行服务端口
-      server: {
-         host: "0.0.0.0",
-         port: 2000,
-      },
-   });
+    },
+  },
+  // 运行服务端口
+  server: {
+    host: "0.0.0.0",
+    port: 2000,
+  },
+});
 ```

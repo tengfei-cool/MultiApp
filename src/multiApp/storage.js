@@ -1,5 +1,6 @@
 import config from './config'
 import crypto from './crypto'
+import event from './event'
 export class Storage {
     constructor(){
         this.prefix = config.prefix || 'RX_DATA_'
@@ -15,6 +16,7 @@ export class Storage {
             }
         }
         window.localStorage.setItem(this.getName(name),value)
+        event.dispatch('storageEvent',name,value)
     }
     get(name){
         let data = window.localStorage.getItem(this.getName(name))

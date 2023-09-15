@@ -1,7 +1,9 @@
 import config from './config'
 import Storage from './storage'
-
+import event from './event'
+import Listener from './listener'
 const storeName = `STORE_${config.appName || 'DATA'}`
+const listener = new Listener('store-channel')
 //清除数据
 function clear (...args) {
     if(args.length){
@@ -67,6 +69,8 @@ export default new Proxy(Store,{
         }
         target['data'][prop] = value
         setStore()
+        event.dispatch('storeEvent',prop,value)
+        listener.postmessage({prop,value})
         return true
     },
     get(target,prop){

@@ -4,6 +4,8 @@ import store from "./store";
 import crypto from "./crypto";
 import storage from "./storage";
 import http from "./http";
+import event from "./event";
+import ListenerEvent from "./listener";
 
 export default {
   rx: {
@@ -12,10 +14,11 @@ export default {
     Sandbox,
     crypto,
     storage,
-    http
+    http,
+    event,
   },
   sandbox: new Sandbox("diff沙箱"),
-  
+
   initSandbox() {
     this.sandbox.activeSandbox();
     if (!window.rx) {
@@ -30,10 +33,15 @@ export default {
   //自定义插件
   use(name, fun) {
     this.initSandbox();
-    if(this.rx[name]) throw RangeError('内置插件不允许修改') 
-    if(window.rx[name])  throw RangeError(`${name}插件已存在`) 
+    if (this.rx[name]) throw RangeError("内置插件不允许修改");
+    if (window.rx[name]) throw RangeError(`${name}插件已存在`);
     let obj = new Object();
     obj[name] = fun;
     Object.assign(window.rx, obj);
   },
+};
+//内置监听方法
+const listenerEvent =  new ListenerEvent('store-channel');
+export const listener = (key, fun) => {
+  listenerEvent.onmessage(key, fun)
 };
