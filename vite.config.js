@@ -3,12 +3,8 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import chalk from "chalk";
 import pages from "./pages.json" assert { type: "json" };
+import config from './src/config.js'
 
-//基础配置
-const config = {
-  main: "main", //主程序项目（根目录下）
-  outDirName: "dist", //打包输出文件夹名称
-};
 //环境
 const ENV = process.env.NODE_ENV;
 //项目名称

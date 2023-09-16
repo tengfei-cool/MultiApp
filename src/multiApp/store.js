@@ -1,4 +1,4 @@
-import config from './config'
+import config from '@/config'
 import Storage from './storage'
 import event from './event'
 import Listener from './listener'

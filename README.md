@@ -160,14 +160,14 @@ rx.插件名称;
 
      rx.page.push('/admin/','_blank')  // 跳转 admin 项目并打开新的窗口
 
-     rx.page.push({ path:"/admin/", query:{···}},'_self_')   // 跳转 admin 项目并传参
+     rx.page.push({ path:"/admin/", query:{···}},'_self')   // 跳转 admin 项目并传参
 
   ```
 
-  - back
+  - back 
 
   ```js
-  //页面返回
+  //页面返回(新窗口打开无效)
 
   rx.page.back();
   ```
@@ -189,19 +189,23 @@ rx.插件名称;
     const submit = () => {
       count.value ++
       //触发监听事件
-      rx.event.dispatch('storeChange','count',count.value)
+      rx.event.dispatch('storeEvent','count',count.value)
     }
 
 
     //监听事件变化
     onMounted(() =>{
-      rx.event.listener('storeChange',(e)=>{
+      rx.event.listener('storeEvent',(e)=>{
          console.log(e)
       })
     })
 
     //删除监听事件
-    rx.event.remove('storeChange')
+    rx.event.remove('storeEvent')
+
+    storeEvent // 内置监听事件
+
+    storageEvent // 内置监听事件
 
    ```
 
@@ -334,12 +338,8 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import chalk from "chalk";
 import pages from "./pages.json" assert { type: "json" };
+import config from './src/config.js'
 
-//基础配置
-const config = {
-  main: "main", //主程序项目（根目录下）
-  outDirName: "dist", //打包输出文件夹名称
-};
 //环境
 const ENV = process.env.NODE_ENV;
 //项目名称

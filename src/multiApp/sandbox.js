@@ -4,7 +4,7 @@ export default class Sandbox {
         this.modifiedProps = {}
         this.windowSnapshot = {}
     }
-
+    //激活沙箱
     activeSandbox() {
         this.windowSnapshot = {}
         for (let key in window) {
@@ -15,7 +15,7 @@ export default class Sandbox {
             window[propName] = this.modifiedProps[propName]
         })
     }
-
+    //关闭沙箱
     inactiveSandbox() {
         for (let key in window) {
             if (this.windowSnapshot[key] !== window[key]) {

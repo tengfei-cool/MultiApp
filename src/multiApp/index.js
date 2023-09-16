@@ -18,7 +18,7 @@ export default {
     event,
   },
   sandbox: new Sandbox("diff沙箱"),
-
+  //启用沙箱
   initSandbox() {
     this.sandbox.activeSandbox();
     if (!window.rx) {

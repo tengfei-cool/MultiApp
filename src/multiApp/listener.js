@@ -2,6 +2,7 @@ class Listener {
   constructor(channel) {
     this.bc = new BroadcastChannel(channel);
   }
+  //接收消息
   onmessage(key, fun) {
     this.bc.onmessage = (event) => {
       if (event.data.prop === key) {
@@ -11,6 +12,7 @@ class Listener {
       }
     };
   }
+  //发送消息
   postmessage(data) {
     this.bc.postMessage(data);
   }
