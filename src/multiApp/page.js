@@ -1,3 +1,4 @@
+//获取拼接
 function setQuery(path, query = {}) {
   let arr = [];
   for (let key in query) {
@@ -13,6 +14,7 @@ function setQuery(path, query = {}) {
   return url;
 }
 export class Page {
+  //创建a标签实现跳转
   aLink(path, target) {
     let a = document.createElement("a");
     let id = "id_a_" + new Date().getTime();
@@ -23,6 +25,7 @@ export class Page {
     a.click();
     document.body.removeChild(document.getElementById(id));
   }
+
   push(params, target = "_self") {
     if (params.constructor == String) {
       if (params.includes("http")) {

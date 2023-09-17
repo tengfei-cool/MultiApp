@@ -1,1 +1,9 @@
-[{"key":"main","entry":"src/Projects/main/index.html","desc":"main"}]
+[
+  { "key": "main", "entry": "src/Projects/main/index.html", "desc": "主程序" },
+  {
+    "key": "admin",
+    "entry": "src/Projects/admin/index.html",
+    "desc": "管理后台"
+  },
+  { "key": "login", "entry": "src/Projects/login/index.html", "desc": "登录页" }
+]

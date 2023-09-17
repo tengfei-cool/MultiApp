@@ -2,16 +2,12 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import chalk from "chalk";
+
 import { createRequire } from "module"; 
 const require = createRequire(import.meta.url); 
 const pages = require("./pages.json")  
+import config from './src/config.js'
 // import pages from "./pages.json" assert { type: "json" };  ndoe 16.16 + 版本使用
-
-//基础配置
-const config = {
-  main: "main", //主程序项目（根目录下）
-  outDirName: "dist", //打包输出文件夹名称
-};
 //环境
 const ENV = process.env.NODE_ENV;
 //项目名称
@@ -59,7 +55,7 @@ const getOutDir = () => {
 export default defineConfig({
   plugins: [vue()],
   root: path.resolve(__dirname, `./src/Projects/${npm_page}`),
-  base: ENV === "development" ? "/" : "./",
+  base: "/",
   envDir: path.resolve(__dirname),
   resolve: {
     alias: {
