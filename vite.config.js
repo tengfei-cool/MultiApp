@@ -2,7 +2,10 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import chalk from "chalk";
-import pages from "./pages.json" assert { type: "json" };
+import { createRequire } from "module"; 
+const require = createRequire(import.meta.url); 
+const pages = require("./pages.json")  
+// import pages from "./pages.json" assert { type: "json" };  ndoe 16.16 + 版本使用
 
 //基础配置
 const config = {
